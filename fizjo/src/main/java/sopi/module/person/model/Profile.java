@@ -36,7 +36,6 @@ public class Profile {
 	String imie;
 	
 	String kodPocztowy;
-	
 	String miejscowosc;
 	
 	@NotBlank(message="Nazwisko jest wymagane")
