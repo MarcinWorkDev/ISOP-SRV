@@ -29,4 +29,12 @@ public class MainController {
 		model.addAttribute("contentPage", "template/pageProfile");
 		return defaultWebpage;
 	}
+	
+	@RequestMapping(value="/schedule")
+	public String schedulePage(Model model){
+		
+		model.addAttribute("title", "Harmonogram pracy");
+		model.addAttribute("contentPage", "template/pageSchedule");
+		return defaultWebpage;
+	}
 }

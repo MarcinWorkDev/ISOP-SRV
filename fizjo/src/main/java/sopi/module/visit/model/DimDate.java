@@ -37,4 +37,8 @@ public class DimDate {
 			return 0;
 		}
 	}
+	
+	public String getString() {
+		return date.toString();
+	}
 }

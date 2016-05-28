@@ -238,20 +238,22 @@ function SOPI_inputDateCalendar(){
 
 /******************************************************************
 *
-*	Wczytanie zewnętrznego elementu (template .tmpl)
+*	Wczytanie zewnętrznego elementu (template .html)
 *
 ******************************************************************/
 function SOPI_loadElement(name){
 	
-	var element = SOPI_elementsUrl + name + '.tmpl';
-		
-	$( "#SOPI_"+name ).load(element,function(response, status, xhr){
+	var element = SOPI_elementsUrl + name + '.html';
+	var status = 0;
+
+	/*$( "#SOPI_"+name ).load(element,function(response, status, xhr){
 		if (status == 'error'){
 			console.log('SOPI External Element not loaded. Error:' + xhr.status + ' ' + xhr.statusText);
 		} else {
-			console.log('SOPI External Element: ' + name + ' is loaded to div ' + $(this).attr('id'));
+			console.log('SOPI Template Element: ' + name + ' from path ' + SOPI_elementsUrl + ' is loaded to #' + $(this).attr('id') + '.');
 		}
-	});
+		status = 1;
+	});*/
 		
 	$.ajax({
 		url: element,
@@ -259,10 +261,16 @@ function SOPI_loadElement(name){
 		dataType: 'html',
 		async: false,
 		success: function(data) {
-			var div = $('<div>', { id: 'SOPI_' + name, class: 'SOPI_TmplLoaded' });
-			$('body').prepend($(div));
-			$(div).html(data);
-			console.log('SOPI Template Element: ' + name + ' from path ' + SOPI_elementsUrl + ' is loaded to #SOPI_' + name + '.');
+			
+			if ($('#SOPI_'+name).length>0) {
+				$('#SOPI_'+name).html(data);
+				console.log('SOPI Template Element: ' + name + ' from path ' + SOPI_elementsUrl + ' is loaded to #SOPI_' + name + '.');
+			} else {
+				var div = $('<div>', { id: 'SOPI_' + name, class: 'SOPI_TmplLoaded' });
+				$('body').prepend($(div));
+				$(div).html(data);
+				console.log('SOPI Template Element: ' + name + ' from path ' + SOPI_elementsUrl + ' is loaded to #SOPI_' + name + ' (new element).');
+			}
 		},
 		error: function(xhr, resp, text, responseText ) {
 			console.log('SOPI Template Element: ' + element + ' not loaded. Error:' + xhr.responseText);

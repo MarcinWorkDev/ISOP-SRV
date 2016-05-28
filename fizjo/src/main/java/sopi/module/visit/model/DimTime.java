@@ -32,4 +32,12 @@ public class DimTime {
 		return timeText;
 	}
 	
+	public String getStringStart(){
+		return timeStart.toString();
+	}
+	
+	public String getStringEnd(){
+		return timeEnd.toString();
+	}
+	
 }

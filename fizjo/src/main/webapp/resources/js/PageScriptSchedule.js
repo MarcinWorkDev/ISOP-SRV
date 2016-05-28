@@ -47,7 +47,9 @@ var pageScriptSchedule = {
 		/	Funkcje obsługi onClick - dodanie eventów
 		/*****************************************************/
 		
-		
+		$('#SccCloseButton').on('click',function(){
+			$('#Scc').collapse('hide');
+		});
 		
 		/******************************************************
 		/	Definicje tabulatorów - wygenerowanie i wstawienie tabulatorów
@@ -158,9 +160,87 @@ var pageScriptSchedule = {
 			},
 			{
 				formatter: function(){ return icons.scheduleIcon2; },
-				width: 32
+				width: 32,
+				onClick: function(e, cell, value, data){
+					
+					$('#SccCalendarOwner').html(data.nazwisko + ' ' + data.imie + ' (' + data.pesel + ')');
+					
+					$('#Scc').collapse('show');
+					
+					$('#SccCalendar').fullCalendar('render');
+					
+					$('#SccCalendar').fullCalendar('removeEvents');
+					$('#SccCalendar').fullCalendar('removeEventSources');
+					var event = { url: global.domainUrl + 'api/module/visit/schedule/' + data.profileId };				
+					$('#SccCalendar').fullCalendar('addEventSource',event);
+					
+				}
 			}
 			]
-	});
+		});
+		
+		$('#SccCalendar').fullCalendar({
+			loading: function( isLoading, view ) {
+				if(isLoading) {
+					$('#SccCalendarLoaderStatus').removeClass('progress-bar-success').addClass('progress-bar-striped');
+					$('#SccCalendarLoaderStatus').html('Trwa wczytywanie danych...');
+				} else {
+					$('#SccCalendarLoaderStatus').removeClass('progress-bar-striped').addClass('progress-bar-success');
+					$('#SccCalendarLoaderStatus').html('Dane zostały wczytane.');
+				}
+			},
+			editable: true,
+			eventDurationEditable: false,
+			selectable: true,
+			selectHelper: true,
+			defaultView: 'agendaWeek',
+			//hiddenDays: [ 6,0 ],
+			columnFormat: 'dd, D MMMM',
+			views: 
+				{
+					agenda:
+						{
+							allDaySlot: false,
+							slotDuration: '01:00:00',
+							minTime: '06:00',
+							maxTime: '21:00'
+						}
+				},
+			/*eventClick:  function(event, jsEvent, view) {
+				$('#modalTitle').html(event.title);
+				$('#modalBody').html(event.description);
+				
+				switch(event.eventType) {
+					case -1:
+						$('#eventUrl').hide();
+						$('#eventUrl2').hide();
+						break;
+					case 0:
+						$('#eventUrl').show();
+						$('#eventUrl2').hide();
+						$('#eventUrl').attr('href','[[@{/grafik/wizyta/nowy/}]]/'+event.grafikId);
+						$('#eventUrl').html('Umów wizytę');
+						break;
+					case 1:
+						$('#eventUrl').show();
+						$('#eventUrl2').hide();
+						$('#eventUrl').attr('href','[[@{/pacjent/profil}]]/'+event.pacjentId);
+						$('#eventUrl').html('Profil pacjenta');
+						//$('#eventUrl2').attr('href','[[@{/grafik/wizyta}]]/'+event.wizytaId);
+						break;
+					case 2:
+						$('#eventUrl').hide();
+						$('#eventUrl2').hide();
+						//$('#eventUrl2').attr('href','[[@{/grafik/wizyta}]]/'+event.wizytaId);
+						break;
+				}
+				
+				$('#eventUrl').attr('href',event.url);
+				$('#eventUrl').attr('href',event.url);
+				$('#eventUrl').attr('href',event.url);
+				
+				$('#fullCalModal').modal();
+			}*/
+		});
 	}
 }
