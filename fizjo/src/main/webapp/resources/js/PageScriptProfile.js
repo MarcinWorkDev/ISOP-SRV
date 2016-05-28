@@ -47,7 +47,7 @@ var pageScriptProfile = {
 		
 		// Usuwanie użytkownika AJAX
 		$('#DcmButton').on('click',function(){
-			var profileId = $(this).attr('profileId');
+			var profileId =  parseInt($(this).attr('profileId'));
 			
 			$('#Dcm').modal('toggle');
 						

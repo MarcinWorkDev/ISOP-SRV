@@ -45,10 +45,9 @@ var pageScriptUser = {
 		/*****************************************************/
 		
 		// Usuwanie użytkownika AJAX
-		//$('#DcmButton').on('click',function(){
-		$('#Dcm').on('click','#DcmButton',function(){
-			console.log('yhym');
-			var userId = $(this).attr('userId');
+		$('#DcmButton').on('click',function(){
+		//$('body').on('click','#DcmButton',function(){
+			var userId = parseInt($(this).attr('userId'));
 			
 			$('#Dcm').modal('toggle');
 			

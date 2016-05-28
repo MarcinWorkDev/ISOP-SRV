@@ -257,6 +257,7 @@ function SOPI_loadElement(name){
 		url: element,
 		method: 'GET',
 		dataType: 'html',
+		async: false,
 		success: function(data) {
 			var div = $('<div>', { id: 'SOPI_' + name, class: 'SOPI_TmplLoaded' });
 			$('body').prepend($(div));
