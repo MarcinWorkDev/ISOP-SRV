@@ -1,0 +1,27 @@
+<!--------------------------------------------------------------------------------
+-------  ScheduleCalendarCollapse (Scc)
+-------
+------- # Scc, SccCloseButton, SccCalendar, SccCalendarLoader
+--------------------------------------------------------------------------------->
+
+	<div class="collapse" id="Scc">
+	  <br>
+	  <div class="well" style="min-height: 300px;">
+		<h2><small>Kalendarz pracownika:</small> <span id="SccCalendarOwner"></span></h2>
+		<hr>
+		<div class="row">
+			<button class="btn btn-primary btn-xs col-md-1" id="SccCloseButton">Zamknij</button>
+			<div id="SccCalendarLoader" class="col-md-10 col-md-offset-1">
+				<div class="progress">
+					<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%" id="SccCalendarLoaderStatus">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div id="SccCalendar"></div>
+		</div>
+	  </div>
+	</div>
+
+<!--/////////////////////////////////////////////////-->
