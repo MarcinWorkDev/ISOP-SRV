@@ -46,7 +46,7 @@ var pageScriptUser = {
 		
 		// Usuwanie użytkownika AJAX
 		$('#DcmButton').on('click',function(){
-			var userId = $(this).prop('userId');
+			var userId = $(this).attr('userId');
 			
 			$('#Dcm').modal('toggle');
 			
