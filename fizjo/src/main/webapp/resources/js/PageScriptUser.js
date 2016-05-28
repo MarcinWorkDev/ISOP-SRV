@@ -394,8 +394,9 @@ var pageScriptUser = {
 				onClick: function(e, cell, value, data){
 					var modal = $('#Dcm');
 					
-					$('#DcmButton').prop('userId',data.userId);
+					$('#DcmButton').attr('userId',data.userId);
 					$('#DcmBody').html('Usunięcie użytkownika <u>nie powoduje</u> usunięcia profilu, <br>do którego użytkownik jest przypisany.<br><br>Czy na pewno chcesz usunąć użytkownika <b>' + data.profile.nazwisko + ' ' + data.profile.imie + ' (' + data.username + ')</b>?');
+					$('#DcmTitle').html('Usuwanie użytkownika');
 					
 					modal.modal('show');
 				},

@@ -8,6 +8,7 @@ var pageScriptSchedule = {
 	global: {
 		domainUrl: '',
 		resourcesUrl: '',
+		elementsUrl: ''
 	},
 		
 	// wygenerowanie adresów obrazków
@@ -27,6 +28,8 @@ var pageScriptSchedule = {
 			detailIcon:  '<img src="' + global.resourcesUrl + 'img/detail.png" style="width: 20;">',
 			editIcon:  '<img src="' + global.resourcesUrl + 'img/edit.png" style="width: 20;">',
 			userIcon:  '<img src="' + global.resourcesUrl + 'img/web_account.png" style="width: 20;">',
+			scheduleIcon: '<img src="' + global.resourcesUrl + 'img/schedule.png" style="width: 20;">',
+			scheduleIcon2: '<img src="' + global.resourcesUrl + 'img/schedule2.png" style="width: 20;">'
 		};
 		return icons;
 	},
@@ -54,7 +57,7 @@ var pageScriptSchedule = {
 		$('#Slc').tabulator({
 		ajaxURL: global.domainUrl + 'api/module/profile/getPracownik',
 		index: 'profileId',
-		fitColumns:true,
+		//fitColumns:true,
 		height: 300,
 		sortable: false,
 		columns: 
@@ -154,61 +157,9 @@ var pageScriptSchedule = {
 				},
 			},
 			{
-				formatter: function(){ return icons.editIcon; },
-				width: 32,
-				onClick: function(e, cell, value, data){
-					
-					var collapse = $('#Apc');
-					var form = $('#ApcForm');
-										
-					$('input[type!="radio"]', $(form)).each(function(){
-												
-						var attr = $(this).attr('name');
-						var valu = data[attr];
-						
-						$(this).val(valu);
-					});
-					
-					$('input[type="radio"]', $(form)).each(function(){
-												
-						var attr = $(this).attr('name');
-						var valu = data[attr];
-						
-						var radi = $(this).val();
-						
-						if (valu == radi) {
-							$(this).closest('.btn').button('toggle');
-						}
-					});
-					
-					$('#ApcButton').removeClass('btn-success').addClass('btn-danger');
-					$('#ApcButton').html('Anuluj edycję');
-					$('#ApcFormButton').html('Zapisz zmiany');
-					$('#ApcFormButton').attr('profileId',data.profileId);
-					$('#ApcInfoEdit').show();
-					$('#ApcInfoNew').hide();
-					
-					$(collapse).collapse('show');
-					
-					$('html, body').animate({
-						scrollTop: $(collapse).offset().top - 40
-					}, 1000);
-					
-				}
-			},
-			 {
-				// delete user
-				onClick: function(e, cell, value, data){
-					var modal = $('#Dcm');
-					
-					$('#DcmButton').prop('profileId',data.profileId);
-					$('#DcmBody').html('Usunięcie profilu <u>spowoduje</u> również usunięcie użytkownika, <br>który jest przypisany do profilu.<br><br>Czy na pewno chcesz usunąć profil <b>' + data.nazwisko + ' ' + data.imie + ' (' + data.type + ')</b>?');
-					
-					modal.modal('show');
-				},
-				formatter: function(){ return icons.deleteIcon; },
+				formatter: function(){ return icons.scheduleIcon2; },
 				width: 32
-			 },
+			}
 			]
 	});
 	}
