@@ -51,6 +51,23 @@ var pageScriptSchedule = {
 			$('#Scc').collapse('hide');
 		});
 		
+		$('#SdmDeleteButton').on('click',function(){
+			$('#Sdm').modal('hide');
+			
+			var scheduleId = $('#SdmDeleteButton').prop('scheduleId');
+			
+			SOPI_ajaxJson({
+				url: global.domainUrl + 'api/module/visit/schedule/delete/' + scheduleId,
+				method: 'DELETE',
+				contentType: "application/json; charset=utf-8",
+				record: scheduleId,
+				message: 'Usuwanie terminu wizyty',
+				actionSuccess: function(){
+					$('#SccCalendar').fullCalendar('refetchEvents');
+				}
+			});
+		});
+		
 		/******************************************************
 		/	Definicje tabulatorów - wygenerowanie i wstawienie tabulatorów
 		/*****************************************************/
@@ -164,6 +181,7 @@ var pageScriptSchedule = {
 				onClick: function(e, cell, value, data){
 					
 					$('#SccCalendarOwner').html(data.nazwisko + ' ' + data.imie + ' (' + data.pesel + ')');
+					$('#SccCalendarOwner').prop('profileId',data.profileId);
 					
 					$('#Scc').collapse('show');
 					
@@ -193,6 +211,43 @@ var pageScriptSchedule = {
 			eventDurationEditable: false,
 			selectable: true,
 			selectHelper: true,
+			select: function(start, end){
+				var eventData;
+				
+				for (var m = moment(start); m.isBefore(end); m.add(1,'hour')) {
+					
+					me = moment(m).add(1,'hour');
+					
+					eventData = {
+						title: 'Nowy termin',
+						start: m,
+						end: me
+					};
+					
+					var profileId = $('#SccCalendarOwner').prop('profileId');
+					var data = {
+						profileId: profileId,
+						start: eventData.start,
+						end: eventData.end
+					};
+										
+					SOPI_ajaxJson({
+						url: global.domainUrl + 'api/module/visit/schedule/set',
+						method: 'POST',
+						data: JSON.stringify(data),
+						contentType: "application/json; charset=utf-8",
+						record: 'Nowy',
+						message: 'Dodawanie terminu wizyty',
+						actionSuccess: function(){
+							$('#SccCalendar').fullCalendar('refetchEvents');
+						}
+					});
+					
+				}
+				
+				$('#SccCalendar').fullCalendar('unselect');
+
+			},
 			defaultView: 'agendaWeek',
 			//hiddenDays: [ 6,0 ],
 			columnFormat: 'dd, D MMMM',
@@ -206,41 +261,20 @@ var pageScriptSchedule = {
 							maxTime: '21:00'
 						}
 				},
-			/*eventClick:  function(event, jsEvent, view) {
-				$('#modalTitle').html(event.title);
-				$('#modalBody').html(event.description);
+			height: 400,
+			eventClick:  function(event, jsEvent, view) {
+				$('#SdmTitle').html(event.title + ' (' + event.start.format('YYYY-MM-DD') + ', ' + event.start.format('HH:mm') + ' - ' + event.end.format('HH:mm') + ')');
+				$('#SdmBody').html(event.description);
 				
-				switch(event.eventType) {
-					case -1:
-						$('#eventUrl').hide();
-						$('#eventUrl2').hide();
-						break;
-					case 0:
-						$('#eventUrl').show();
-						$('#eventUrl2').hide();
-						$('#eventUrl').attr('href','[[@{/grafik/wizyta/nowy/}]]/'+event.grafikId);
-						$('#eventUrl').html('Umów wizytę');
-						break;
-					case 1:
-						$('#eventUrl').show();
-						$('#eventUrl2').hide();
-						$('#eventUrl').attr('href','[[@{/pacjent/profil}]]/'+event.pacjentId);
-						$('#eventUrl').html('Profil pacjenta');
-						//$('#eventUrl2').attr('href','[[@{/grafik/wizyta}]]/'+event.wizytaId);
-						break;
-					case 2:
-						$('#eventUrl').hide();
-						$('#eventUrl2').hide();
-						//$('#eventUrl2').attr('href','[[@{/grafik/wizyta}]]/'+event.wizytaId);
-						break;
+				if (event.past) {
+					$('#SdmDeleteButton').hide();
+				} else {
+					$('#SdmDeleteButton').show();
+					$('#SdmDeleteButton').prop('scheduleId',event.scheduleId);
 				}
 				
-				$('#eventUrl').attr('href',event.url);
-				$('#eventUrl').attr('href',event.url);
-				$('#eventUrl').attr('href',event.url);
-				
-				$('#fullCalModal').modal();
-			}*/
+				$('#Sdm').modal();
+			}
 		});
 	}
 }

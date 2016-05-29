@@ -3,6 +3,7 @@ package sopi.config;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.joda.time.format.DateTimeFormat;
 import org.springframework.context.ApplicationContext;
@@ -112,7 +113,7 @@ public class WebConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
         objectMapper.registerModule(new JodaModule());
         objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        //objectMapper.setDateFormat(new SimpleDateFormat("yyyy-MM-dd HH:mm"));
+        objectMapper.configure(SerializationFeature.WRITE_DATES_WITH_ZONE_ID, true);
         
         converters.add(0,jacksonMessageConverter);
     }

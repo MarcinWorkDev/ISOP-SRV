@@ -15,7 +15,7 @@ public class DimTime {
 	LocalTime timeEnd;
 	
 	String timeText;
-
+	
 	public Long getTimeId() {
 		return timeId;
 	}

@@ -1,30 +1,35 @@
 package sopi.module.visit.model;
 
+import org.joda.time.DateTime;
+
 public class Event {
 	
+	private Long profileId;
 	private String title;
-	private String start;
-	private String end;
+	private DateTime start;
+	private DateTime end;
 	private String className;
 	private String description;
 	private int eventType;
-	private Long wizytaId;
-	private Long pacjentId;
-	private Long grafikId;
+	private Long scheduleId;
+	private boolean past;
 	
-	public Event(String title, String start, String end, String className, String description, int eventType, Long pacjentId, Long wizytaId, Long grafikId) {
+	public Event(){
+		
+	}
+	
+	public Event(Long scheduleId, Long profileId, String title, DateTime start, DateTime end, String className, String description, boolean past) {
+		this.profileId = profileId;
 		this.title = title;
 		this.start = start;
 		this.end = end;
 		this.className = className;
 		this.description = description;
-		this.eventType = eventType;
-		this.wizytaId = wizytaId;
-		this.pacjentId = pacjentId;
-		this.grafikId = grafikId;
+		this.scheduleId = scheduleId;
+		this.past = past;
 	}
 	
-	public Event(String title, String start, String end, String className, String description){
+	public Event(String title, DateTime start, DateTime end, String className, String description){
 		this.title = title;
 		this.start = start;
 		this.end = end;
@@ -38,16 +43,16 @@ public class Event {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public String getStart() {
+	public DateTime getStart() {
 		return start;
 	}
-	public void setStart(String start) {
+	public void setStart(DateTime start) {
 		this.start = start;
 	}
-	public String getEnd() {
+	public DateTime getEnd() {
 		return end;
 	}
-	public void setEnd(String end) {
+	public void setEnd(DateTime end) {
 		this.end = end;
 	}
 
@@ -75,28 +80,28 @@ public class Event {
 		this.eventType = eventType;
 	}
 
-	public Long getWizytaId() {
-		return wizytaId;
+	public Long getProfileId() {
+		return profileId;
 	}
 
-	public void setWizytaId(Long wizytaId) {
-		this.wizytaId = wizytaId;
+	public void setProfileId(Long profileId) {
+		this.profileId = profileId;
 	}
 
-	public Long getPacjentId() {
-		return pacjentId;
+	public Long getScheduleId() {
+		return scheduleId;
 	}
 
-	public void setPacjentId(Long pacjentId) {
-		this.pacjentId = pacjentId;
+	public void setScheduleId(Long scheduleId) {
+		this.scheduleId = scheduleId;
 	}
 
-	public Long getGrafikId() {
-		return grafikId;
+	public boolean isPast() {
+		return past;
 	}
 
-	public void setGrafikId(Long grafikId) {
-		this.grafikId = grafikId;
+	public void setPast(boolean past) {
+		this.past = past;
 	}
 	
 }

@@ -4,10 +4,21 @@
 ------- # Scc, SccCloseButton, SccCalendar, SccCalendarLoader
 --------------------------------------------------------------------------------->
 
+	<style>
+		.schedule-avail {
+			border: 1px solid green;
+			background: green;
+		}
+		.schedule-unavail {
+			border: 1px solid grey;
+			background: grey;
+		}
+	</style>
+
 	<div class="collapse" id="Scc">
 	  <br>
 	  <div class="well" style="min-height: 300px;">
-		<h2><small>Kalendarz pracownika:</small> <span id="SccCalendarOwner"></span></h2>
+		<h2><small>Kalendarz pracownika:</small> <span id="SccCalendarOwner" profileId></span></h2>
 		<hr>
 		<div class="row">
 			<button class="btn btn-primary btn-xs col-md-1" id="SccCloseButton">Zamknij</button>
