@@ -2,11 +2,17 @@ package sopi.module.visit.model;
 
 import org.joda.time.DateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class Event {
 	
 	private Long profileId;
 	private String title;
+
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private DateTime start;
+	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
 	private DateTime end;
 	private String className;
 	private String description;

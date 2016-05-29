@@ -37,9 +37,9 @@ public class ScheduleModel {
 			boolean status = schedule.getPast();
 			
 			if (status){
-				title = "Zrealizowany";
+				title = "Zakończony";
 				klasa = "schedule-unavail";
-				description = "Dyżur odbyty.";
+				description = "Dyżur zakończony.";
 			} else {
 				title = "Planowany";
 				klasa = "schedule-avail";

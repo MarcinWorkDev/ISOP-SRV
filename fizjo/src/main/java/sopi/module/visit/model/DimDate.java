@@ -39,6 +39,6 @@ public class DimDate {
 	}
 	
 	public String getString() {
-		return date.toString();
+		return date.toString("yyyy-MM-dd");
 	}
 }

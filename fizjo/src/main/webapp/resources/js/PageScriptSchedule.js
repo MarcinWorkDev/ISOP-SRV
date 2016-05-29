@@ -207,14 +207,24 @@ var pageScriptSchedule = {
 					$('#SccCalendarLoaderStatus').html('Dane zostały wczytane.');
 				}
 			},
-			editable: true,
-			eventDurationEditable: false,
+			editable: false,
+			timezone: 'UTC',
 			selectable: true,
 			selectHelper: true,
+			selectOverlap: false,
+			//selectConstraint: {
+			//	start: moment().format('YYYY-MM-DDTHH:mm:ss')
+			//},
 			select: function(start, end){
 				var eventData;
-				
+				var now = moment();	
+							
 				for (var m = moment(start); m.isBefore(end); m.add(1,'hour')) {
+										
+					if (m.isBefore(now)) {
+						$('#SccCalendar').fullCalendar('unselect');
+						continue;
+					}
 					
 					me = moment(m).add(1,'hour');
 					
@@ -227,10 +237,10 @@ var pageScriptSchedule = {
 					var profileId = $('#SccCalendarOwner').prop('profileId');
 					var data = {
 						profileId: profileId,
-						start: eventData.start,
-						end: eventData.end
+						start: eventData.start.format('YYYY-MM-DD HH:mm'),
+						end: eventData.end.format('YYYY-MM-DD HH:mm')
 					};
-										
+					
 					SOPI_ajaxJson({
 						url: global.domainUrl + 'api/module/visit/schedule/set',
 						method: 'POST',

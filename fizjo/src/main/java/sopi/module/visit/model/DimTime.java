@@ -5,13 +5,18 @@ import javax.persistence.Id;
 
 import org.joda.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity(name="time")
 public class DimTime {
 
 	@Id
 	Long timeId;
 	
+	@JsonFormat(pattern="HH:mm")
 	LocalTime timeStart;
+	
+	@JsonFormat(pattern="HH:mm")
 	LocalTime timeEnd;
 	
 	String timeText;
@@ -33,11 +38,11 @@ public class DimTime {
 	}
 	
 	public String getStringStart(){
-		return timeStart.toString();
+		return timeStart.toString("HH:mm");
 	}
 	
 	public String getStringEnd(){
-		return timeEnd.toString();
+		return timeEnd.toString("HH:mm");
 	}
 	
 }
