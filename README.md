@@ -1,3 +1,3 @@
-ISOP - Internetowy System Obsługi Pacjentów
+<h1>ISOP - Internetowy System Obsługi Pacjentów</h2>
 
-Projekt pracy dyplomowej - inżynier.
+<h2>Projekt pracy dyplomowej - inżynier.</h2>
