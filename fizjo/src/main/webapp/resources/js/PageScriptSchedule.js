@@ -57,7 +57,7 @@ var pageScriptSchedule = {
 			var scheduleId = $('#SdmDeleteButton').prop('scheduleId');
 			
 			SOPI_ajaxJson({
-				url: global.domainUrl + 'api/module/visit/schedule/delete/' + scheduleId,
+				url: global.domainUrl + 'api/module/schedule/delete/' + scheduleId,
 				method: 'DELETE',
 				contentType: "application/json; charset=utf-8",
 				record: scheduleId,
@@ -189,7 +189,7 @@ var pageScriptSchedule = {
 					
 					$('#SccCalendar').fullCalendar('removeEvents');
 					$('#SccCalendar').fullCalendar('removeEventSources');
-					var event = { url: global.domainUrl + 'api/module/visit/schedule/' + data.profileId };				
+					var event = { url: global.domainUrl + 'api/module/schedule/event/get/pracownik/' + data.profileId };				
 					$('#SccCalendar').fullCalendar('addEventSource',event);
 					
 				}
@@ -242,7 +242,7 @@ var pageScriptSchedule = {
 					};
 					
 					SOPI_ajaxJson({
-						url: global.domainUrl + 'api/module/visit/schedule/set',
+						url: global.domainUrl + 'api/module/schedule/event/set',
 						method: 'POST',
 						data: JSON.stringify(data),
 						contentType: "application/json; charset=utf-8",

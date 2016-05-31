@@ -66,11 +66,19 @@ public class ScheduleModel {
 		return events;
 	}
 	
+	public Schedule getSchedule(Long scheduleId){
+		return scheduleRepo.findOne(scheduleId);
+	}
+	
 	public List<Event> getEventsAllFuture(){
 		List<Schedule> schedules = scheduleRepo.findAll();
 		List<Event> events = new ArrayList<>();
 		
 		for (Schedule schedule : schedules){
+			
+			if (!schedule.getProfile().getType().equals("PRACOWNIK")){
+				continue;
+			}
 					
 			if (schedule.getPast()) {
 				continue;
@@ -91,7 +99,7 @@ public class ScheduleModel {
 				klasa = "schedule-unavail-b";
 				description = "Termin jest zarezerwowany.";
 			} else {
-				title = "Termin dostępny.";
+				title = schedule.getProfile().getNazwisko() + " " + schedule.getProfile().getImie();
 				klasa = "schedule-avail";
 				description = "Brak rezerwacji terminu.";
 			}

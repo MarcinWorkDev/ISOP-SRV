@@ -145,12 +145,14 @@
 			SOPI_loadElement('StatusDetailModal');
 			SOPI_loadElement('VisitDetailModal');
 			SOPI_loadElement('ScheduleGetCollapse');
+			SOPI_loadElement('ProfileGetModal');
 		
 			// Nadpisz konfigurację w skrypcie User
 			pageScriptUser.global = config.global;
 						
 			// Dodaj filtry do tabulatorów
 			SOPI_filterTabulator($('#Vlc'), $('#VlcFilterValue'), $('#VlcFilterReset'));
+			SOPI_filterTabulator($('#PgmContainer'), $('#PgmFilterValue'), $('#PgmFilterReset'));
 			
 			// Uruchom skrypt User
 			pageScriptUser._create();

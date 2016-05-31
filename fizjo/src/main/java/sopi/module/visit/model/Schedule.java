@@ -1,6 +1,7 @@
 package sopi.module.visit.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
@@ -35,21 +37,38 @@ public class Schedule {
 	@JoinColumn(name="profileId")
 	Profile profile;
 	
-	@OneToOne(mappedBy = "schedule")
-	Visit visit;
+	@OneToMany(mappedBy = "schedule")
+	List<Visit> visit;
 	
 	public boolean getHasVisit(){
+		
+		boolean hasVisit = false;
+		
 		if (visit == null){
-			return false;
+			hasVisit = false;
+		} else {
+			for (Visit one : visit){
+				if (!one.isCanceled()){
+					hasVisit = true;
+				}
+			}
 		}
-		return true;
+		return hasVisit;
 	}
 	
 	public Long getVisitId(){
+		
+		Long visitId = null;
+		
 		if (visit == null){
 			return null;
 		} else {
-			return visit.getVisitId();
+			for (Visit one : visit){
+				if (!one.isCanceled()){
+					visitId = one.getVisitId();
+				}
+			}
+			return visitId;
 		}
 	}
 

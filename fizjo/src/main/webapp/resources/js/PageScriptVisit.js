@@ -48,14 +48,111 @@ var pageScriptUser = {
 			$('#Sgc').collapse('toggle');
 			$('#SgcCalendar').fullCalendar('render');
 		});
+		
+		$('#VdmButton').on('click',function(){
+			
+			var visitId = parseInt($('#VdmButton').attr('visitId'));
+			var status = $('#VdmStatus').val();
+			var result = CKEDITOR.instances.VdmResult.getData();
+			
+			var data = {visitId: visitId, status: status, result: result};
+			
+			SOPI_ajaxJson({
+				url: global.domainUrl + 'api/module/visit/setResult',
+				method: 'PUT',
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				record: 'Nowy',
+				message: 'Modyfikacja rezultatu wizyty',
+				actionSuccess: function(){
+					$('#Vlc').tabulator("setData");
+				}
+			});
+			
+			$('#Vdm').modal('hide');
+			
+		});
+		
+		$('#DcmButton').on('click',function(){
+			var visitId =  parseInt($(this).attr('visitId'));
+			
+			$('#Dcm').modal('toggle');
+						
+			SOPI_ajaxJson({
+				url: global.domainUrl + 'api/module/visit/cancel/' + visitId,
+				method: 'PUT',
+				contentType: "application/json; charset=utf-8",
+				record: visitId,
+				message: 'Odwołanie wizyty',
+				actionSuccess: function(){
+					$('#Vlc').tabulator("setData");
+					$('#SgcCalendar').fullCalendar('refetchEvents');
+				}
+			});
+			
+		});
+		
+		$('#PgmConfirmButton').on('click',function(){
+			var scheduleId = parseInt($(this).attr('scheduleId'));
+			var profileId = parseInt($(this).attr('profileId'));
+			var data =
+			{
+				scheduleId: scheduleId,
+				profileId: profileId
+			};
+						
+			SOPI_ajaxJson({
+				url: global.domainUrl + 'api/module/visit/set',
+				method: 'POST',
+				data: JSON.stringify(data),
+				contentType: "application/json; charset=utf-8",
+				record: 'Nowy',
+				message: 'Planowanie wizyty',
+				actionSuccess: function(){
+					$('#Vlc').tabulator("setData");
+				}
+			});
+			
+			$('#SgcCalendar').fullCalendar('refetchEvents');
+			$('#Pgm').modal('hide');
+		});
 				
 		/******************************************************
 		/	Definicje tabulatorów - wygenerowanie i wstawienie tabulatorów
 		/*****************************************************/
-				
+						
+		$('#PgmContainer').tabulator({
+			ajaxURL: global.domainUrl + 'api/module/profile/getPacjent',
+			index: 'profileId',
+			fitColumns: true,
+			sortable: false,
+			pagination: false,
+			height: 200,
+			rowClick: function(e, id, data, row){
+				$('#PgmConfirmPacjent').html(data.nazwisko + ' ' + data.imie + ' (' + data.pesel + ')');
+				$('#PgmConfirmButton').attr('profileId',data.profileId);
+				$('#PgmConfirm').show();
+			},
+			columns:
+				[
+					{
+						title: 'Nazwisko',
+						field: 'nazwisko'
+					},
+					{
+						title: 'Imię',
+						field: 'imie'
+					},
+					{
+						title: 'Pesel',
+						field: 'pesel'
+					}
+				]
+		});
+						
 		// Tabulator użytkowników
 		$('#Vlc').tabulator({
-		ajaxURL: global.domainUrl + 'api/module/visit/list',
+		ajaxURL: global.domainUrl + 'api/module/visit/get',
 		index: 'visitId',
 		fitColumns:true,
 		pagination: true,
@@ -116,6 +213,8 @@ var pageScriptUser = {
 					$('#VdmStatus').val(data.status).change();
 					
 					CKEDITOR.instances.VdmResult.setData(data.result);
+					
+					$('#VdmButton').attr('visitId',data.visitId);
 					
 					$('#Vdm').modal('show');
 					
@@ -277,7 +376,7 @@ var pageScriptUser = {
 				}
 			},
 			editable: false,
-			events: global.domainUrl + 'api/module/visit/schedule/all',
+			events: global.domainUrl + 'api/module/schedule/event/get',
 			timezone: 'UTC',
 			defaultView: 'agendaWeek',
 			columnFormat: 'dd, D MMMM',
@@ -293,7 +392,17 @@ var pageScriptUser = {
 				},
 			height: 400,
 			eventClick:  function(event, jsEvent, view) {
-				
+				if (event.hasVisit == false){
+										
+					$('#PgmDetailsDate').html(moment(event.start).format('YYYY-MM-DD (dddd)'));
+					$('#PgmDetailsTime').html(moment(event.start).format('HH:mm') + ' - ' + moment(event.end).format('HH:mm'));
+					$('#PgmDetailsPracownik').html(event.title);
+					
+					$('#PgmConfirmButton').attr('scheduleId',event.scheduleId);
+					
+					$('#PgmContainer').tabulator('setData');
+					$('#Pgm').modal('show');
+				}
 			}
 		});
 	}
