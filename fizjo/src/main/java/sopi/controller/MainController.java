@@ -37,4 +37,12 @@ public class MainController {
 		model.addAttribute("contentPage", "template/pageSchedule");
 		return defaultWebpage;
 	}
+	
+	@RequestMapping(value="/visit")
+	public String visitPage(Model model){
+		
+		model.addAttribute("title", "Wizyty");
+		model.addAttribute("contentPage", "template/pageVisit");
+		return defaultWebpage;
+	}
 }

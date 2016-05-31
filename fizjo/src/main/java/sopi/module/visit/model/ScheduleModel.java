@@ -49,7 +49,68 @@ public class ScheduleModel {
 			DateTime start = new DateTime(schedule.getDateId().getString() + 'T' + schedule.getTimeId().getStringStart());
 			DateTime end = new DateTime(schedule.getDateId().getString() + 'T' + schedule.getTimeId().getStringEnd());
 			
-			events.add(new Event(schedule.getScheduleId(), profileId, title, start, end, klasa, description, status));
+			events.add(new Event(
+					schedule.getScheduleId(), 
+					profileId, 
+					title, 
+					start, 
+					end, 
+					klasa, 
+					description, 
+					status,
+					schedule.getHasVisit(),
+					schedule.getVisitId()
+					));
+		}
+		
+		return events;
+	}
+	
+	public List<Event> getEventsAllFuture(){
+		List<Schedule> schedules = scheduleRepo.findAll();
+		List<Event> events = new ArrayList<>();
+		
+		for (Schedule schedule : schedules){
+					
+			if (schedule.getPast()) {
+				continue;
+			}
+			
+			String title = "";
+			String klasa = "";
+			String description = "";
+			
+			boolean status = schedule.getPast();
+			
+			if (status){
+				title = "Niedostępny";
+				klasa = "schedule-unavail";
+				description = "Termin jest niedostępny.";
+			} else if(schedule.getHasVisit()) {
+				title = "Termin zajęty.";
+				klasa = "schedule-unavail-b";
+				description = "Termin jest zarezerwowany.";
+			} else {
+				title = "Termin dostępny.";
+				klasa = "schedule-avail";
+				description = "Brak rezerwacji terminu.";
+			}
+			
+			DateTime start = new DateTime(schedule.getDateId().getString() + 'T' + schedule.getTimeId().getStringStart());
+			DateTime end = new DateTime(schedule.getDateId().getString() + 'T' + schedule.getTimeId().getStringEnd());
+			
+			events.add(new Event(
+					schedule.getScheduleId(), 
+					schedule.getProfile().getProfileId(), 
+					title, 
+					start, 
+					end, 
+					klasa, 
+					description, 
+					status,
+					schedule.getHasVisit(),
+					schedule.getVisitId()
+					));
 		}
 		
 		return events;

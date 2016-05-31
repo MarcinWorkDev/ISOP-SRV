@@ -14,6 +14,8 @@ import sopi.module.visit.model.DimTime;
 import sopi.module.visit.model.Event;
 import sopi.module.visit.model.Schedule;
 import sopi.module.visit.model.ScheduleModel;
+import sopi.module.visit.model.Visit;
+import sopi.module.visit.model.VisitModel;
 import sopi.rest.StatusHelper;
 
 @RestController
@@ -21,6 +23,7 @@ import sopi.rest.StatusHelper;
 public class VisitControllerRest {
 
 	@Autowired ScheduleModel scheduleModel;
+	@Autowired VisitModel visitModel;
 	
 	@RequestMapping(value="/get", method=RequestMethod.GET)
 	public List<Schedule> list() {
@@ -30,6 +33,11 @@ public class VisitControllerRest {
 	@RequestMapping(value="/schedule/{id}", method=RequestMethod.GET)
 	public List<Event> listSchedules(@PathVariable Long id){
 		return scheduleModel.getEventsByPracownik(id);
+	}
+	
+	@RequestMapping(value="/schedule/all", method=RequestMethod.GET)
+	public List<Event> listSchedulesAll(){
+		return scheduleModel.getEventsAllFuture();
 	}
 	
 	@RequestMapping(value="/schedule/set", method=RequestMethod.POST)
@@ -52,5 +60,10 @@ public class VisitControllerRest {
 		} catch (Exception e) {
 			return new StatusHelper(false, "Wystąpił błąd: " + e.getMessage(), id);
 		}
+	}
+	
+	@RequestMapping(value="/list", method=RequestMethod.GET)
+	public List<Visit> listvisit(){
+		return visitModel.list();
 	}
 }

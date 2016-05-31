@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
@@ -32,6 +34,24 @@ public class Schedule {
 	@ManyToOne
 	@JoinColumn(name="profileId")
 	Profile profile;
+	
+	@OneToOne(mappedBy = "schedule")
+	Visit visit;
+	
+	public boolean getHasVisit(){
+		if (visit == null){
+			return false;
+		}
+		return true;
+	}
+	
+	public Long getVisitId(){
+		if (visit == null){
+			return null;
+		} else {
+			return visit.getVisitId();
+		}
+	}
 
 	public boolean getPast(){
 		

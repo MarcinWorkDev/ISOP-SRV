@@ -173,7 +173,14 @@ function SOPI_filterTabulator(container, filterValueField, filterResetField){
 					data2 = data[key];
 					for(var key2 in data2){
 						if (data2.hasOwnProperty(key2)) {
-							row += data2[key2] + " ";
+							if ($.isArray(data[key]) || jQuery.type(data[key]) === 'object') {
+								data3 = data[key];
+								for(var key3 in data3){
+									row += data3[key3] + " ";
+								}
+							} else {
+								row += data2[key2] + " ";
+							}
 						}
 					}
 				} else {

@@ -19,12 +19,24 @@ public class Event {
 	private int eventType;
 	private Long scheduleId;
 	private boolean past;
+	private boolean hasVisit;
+	private Long visitId;
 	
 	public Event(){
 		
 	}
 	
-	public Event(Long scheduleId, Long profileId, String title, DateTime start, DateTime end, String className, String description, boolean past) {
+	public Event(
+			Long scheduleId, 
+			Long profileId, 
+			String title, 
+			DateTime start, 
+			DateTime end, 
+			String className, 
+			String description, 
+			boolean past,
+			boolean hasVisit,
+			Long visitId) {
 		this.profileId = profileId;
 		this.title = title;
 		this.start = start;
@@ -33,6 +45,8 @@ public class Event {
 		this.description = description;
 		this.scheduleId = scheduleId;
 		this.past = past;
+		this.hasVisit = hasVisit;
+		this.visitId = visitId;
 	}
 	
 	public Event(String title, DateTime start, DateTime end, String className, String description){
@@ -108,6 +122,22 @@ public class Event {
 
 	public void setPast(boolean past) {
 		this.past = past;
+	}
+
+	public boolean isHasVisit() {
+		return hasVisit;
+	}
+
+	public void setHasVisit(boolean hasVisit) {
+		this.hasVisit = hasVisit;
+	}
+
+	public Long getVisitId() {
+		return visitId;
+	}
+
+	public void setVisitId(Long visitId) {
+		this.visitId = visitId;
 	}
 	
 }
