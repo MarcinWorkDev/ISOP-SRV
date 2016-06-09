@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import sopi.module.auth.security.TokenUtils;
 import sopi.module.person.repository.RoleRepository;
 import sopi.module.person.repository.UserRepository;
 
@@ -67,6 +68,12 @@ public class UserModel {
 	
 	public void deleteUser(Long id) {
 		userRepo.delete(id);
+	}
+	
+	public User getUserFromToken(String tokenString){
+		TokenUtils token = new TokenUtils();
+		User user = userRepo.getByUsername(token.getUsernameFromToken(tokenString));
+		return user;
 	}
 	
 }

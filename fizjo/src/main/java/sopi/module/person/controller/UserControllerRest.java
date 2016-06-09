@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.joda.time.DateTime;
@@ -150,5 +153,14 @@ public class UserControllerRest {
 		} catch (Exception e) {
 			return new StatusHelper(false,"Wystąpił błąd: " + e.getMessage(), id);
 		}
+	}
+	
+	@RequestMapping(value="/getLogged")
+	public User getLogged(ServletRequest request, ServletResponse response){
+		HttpServletRequest httpRequest = (HttpServletRequest) request;
+	    String authToken = httpRequest.getHeader("X-Auth-Token");
+	    
+	    User user = userModel.getUserFromToken(authToken);
+	    return user;
 	}
 }
