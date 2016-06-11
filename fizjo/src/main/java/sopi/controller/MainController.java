@@ -10,6 +10,6 @@ public class MainController {
 
 	@RequestMapping(value="/")
 	public @ResponseBody String index(){
-		return "Server is running. Only REST is support.";
+		return "SOPI Site Core is running. Only REST API is available!";
 	}
 }
