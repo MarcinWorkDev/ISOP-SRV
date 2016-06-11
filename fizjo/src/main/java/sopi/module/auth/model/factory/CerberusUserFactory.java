@@ -15,9 +15,23 @@ public class CerberusUserFactory {
   public static CerberusUser create(User user) {
 
 	  Collection<GrantedAuthority> authorities = new ArrayList<>();
+	  	  
+	  if (user.getProfile().getType() != "PACJENT"){
+		  for (Role role : user.getRoles()) {
+			  authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
+		  }
+	  }
 	  
-	  for (Role role : user.getRoles()) {
-		  authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
+	  switch (user.getProfile().getType()){
+	  case "PACJENT":
+		  authorities.add(new SimpleGrantedAuthority("ROLE_T_PACJENT"));
+		  break;
+	  case "PRACOWNIK":
+		  authorities.add(new SimpleGrantedAuthority("ROLE_T_PRACOWNIK"));
+		  break;
+	  case "USER":
+		  authorities.add(new SimpleGrantedAuthority("ROLE_T_USER"));
+		  break;
 	  }
 	  
       return new CerberusUser(

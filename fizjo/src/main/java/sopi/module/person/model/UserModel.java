@@ -15,6 +15,10 @@ public class UserModel {
 	@Autowired UserRepository userRepo;
 	@Autowired RoleRepository roleRepo;
 	
+	public List<User> getUsers(String type){
+		return userRepo.findAllByProfileType(type);
+	}
+	
 	public User getUser(Long userId) {		
 		return userRepo.findOne(userId);
 	}

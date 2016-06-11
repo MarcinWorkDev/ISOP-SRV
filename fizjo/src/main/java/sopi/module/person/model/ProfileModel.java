@@ -23,8 +23,33 @@ public class ProfileModel {
 		return profileRepo.findAllByType(type);
 	}
 	
+	public Profile getProfile(Long profileId){
+		return profileRepo.findOne(profileId);
+	}
+	
 	public List<Profile> getProfileWithoutUser(){
 		List<Profile> profiles = profileRepo.findAll();
+		List<Profile> profiles2 = new ArrayList<>();		
+		
+		for (Profile profile : profiles) {
+			
+			boolean emailStatus;
+			if (profile.getEmail() == null || profile.getEmail().length() < 3) {
+				emailStatus = false;
+			} else {
+				emailStatus = true;
+			}
+			
+			if (profile.getUser() == null && emailStatus == true) {
+				profiles2.add(profile);
+			}
+		}
+		
+		return profiles2;
+	}
+	
+	public List<Profile> getProfileWithoutUser(String type){
+		List<Profile> profiles = profileRepo.findAllByType(type);
 		List<Profile> profiles2 = new ArrayList<>();		
 		
 		for (Profile profile : profiles) {
