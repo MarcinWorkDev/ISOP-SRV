@@ -3,6 +3,7 @@ package sopi.module.person.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.stereotype.Repository;
 
 import sopi.module.person.model.User;
@@ -12,5 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	
 	User getByUsername(String username);
 	List<User> findAllByProfileType(String type);
+	
+	@Procedure("changePassword")
+	void changePassword(String password, Long userId);
 
 }

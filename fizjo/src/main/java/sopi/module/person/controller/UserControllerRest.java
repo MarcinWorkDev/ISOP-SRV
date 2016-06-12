@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import sopi.module.auth.security.AuthUtils;
@@ -27,6 +28,7 @@ import sopi.module.person.model.ProfileModel;
 import sopi.module.person.model.Role;
 import sopi.module.person.model.RoleModel;
 import sopi.module.person.model.User;
+import sopi.module.person.model.UserChangePassword;
 import sopi.module.person.model.UserModel;
 import sopi.rest.StatusHelper;
 
@@ -167,13 +169,7 @@ public class UserControllerRest {
 		}
 		
 		if (userModel.getUser(user.getUserId()) == null) {
-			try {
-				
-				user.setCreatedBy("ADMIN_TEST");
-				user.setCreatedAt(new DateTime(new Date()));
-				user.setLastPasswordChangeAt(new DateTime(new Date()));
-				user.setPassword("PASSWORD_TEST");
-				
+			try {				
 				userModel.saveNew(user);
 				return ResponseEntity.ok(new StatusHelper(true, "Rekord został dodany.", user));
 			} catch (Exception e) {
@@ -210,6 +206,34 @@ public class UserControllerRest {
 			return ResponseEntity.ok(new StatusHelper(true,"Użytkownik został usunięty", id));
 		} catch (Exception e) {
 			return ResponseEntity.ok(new StatusHelper(false,"Wystąpił błąd: " + e.getMessage(), id));
+		}
+	}
+	
+	@RequestMapping(value="/resetPassword/{id}", method=RequestMethod.POST)
+	public ResponseEntity<?> resetPassword(@PathVariable Long id){
+		if (!auth.checkRoles("ADMIN,USER")){
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ACCESS_DENIED");
+		}
+		
+		try {
+			userModel.resetPassword(id);
+			return ResponseEntity.ok(new StatusHelper(true,"Hasło zostało zresetowane", id));
+		} catch (Exception e){
+			return ResponseEntity.ok(new StatusHelper(false,"Wystąpił błąd: " + e.getMessage(), id));
+		}
+	}
+	
+	@RequestMapping(value="/changePassword", method=RequestMethod.POST)
+	public ResponseEntity<?> changePassword(@RequestBody UserChangePassword userChangePassword){
+		try {
+			String result = userModel.changePassword(
+					userChangePassword.getUserId(), 
+					userChangePassword.getOldPassword(), 
+					userChangePassword.getNewPassword(), 
+					userChangePassword.getConfirmPassword());
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Wystąpił błąd podczas zmiany hasła: " + e.getMessage());
 		}
 	}
 	

@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pl">
+
+<head>
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <style type="text/css">
+ 
+ </style>
+</head>
+
+<body bgcolor="#e6e9ee" topmargin="0" leftmargin="0" marginheight="0" marginwidth="0" style="margin: 0; padding: 0; background-color: #e6e9ee; font: normal 14px Helvetica, Arial, sans-serif; line-height: 1.5; color: #444;">
+
+<table align="center" border="0" cellpadding="0" cellspacing="0" style="width: 100%;">
+	<tr>
+		<td style="background-color: #e6e9ee; padding: 30px 0; font-family: Helvetica, Arial, sans-serif;">
+			<table align="center" border="0" cellpadding="0" cellspacing="0" id="main" style="width: 600px;">
+				<tr>
+					<td style="background: #fff; text-align: center; padding: 10px;">
+						<table align="center" border="0" cellpadding="0" cellspacing="0" id="top-1" style="width: 100%;">
+							<tr>
+								<td>
+									<img src="http://marcin.work/cdn/isop/logo.png" style="height: 60px;">
+								</td>
+							</tr>
+							<tr>
+								<td style="text-align: left;">
+								
+<!-- CONTENT -->
+
+<table id="mailContent">
+	<tr>
+		<td>
+			<h2>Internetowy System Obsługi Pacjentów</h2><br>
+			Witaj <b th:text="|${user.profile.Nazwisko} ${user.profile.Imie}|">{NAZWISKO} {IMIE}</b>,<br><br> 
+			Twoje nowe konto użytkownika zostało utworzone.<br><br><br>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: 1px solid #8E958C; padding: 10px; margin: 10px auto; text-align: center;">
+			<b>Internetowy System Obsługi Pacjentów:</b><br>
+			<a href="http://fizjo.marcin.work">fizjo.marcin.work</a>
+		</td>
+	</tr>
+	<tr>
+		<td style="border: 1px solid #8E958C; padding: 10px; margin: 10px auto;">
+			<b><u>Dane konta:</u></b>
+			<br><br>
+			Nazwa użytkownika:<br>
+				<div style="padding: 5px; border: 1px solid #8E958C; margin: 10px auto; text-align: center; font-weight: bold;" th:text="${username}">{USERNAME}</div>
+			<br><br>	
+			Jednorazowe hasło dostępu:<br>
+				<div style="padding: 5px; border: 1px solid #8E958C; margin: 10px auto; text-align: center; font-weight: bold;" th:text="${password}">{PASSWORD}</div>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<br><br>	
+			<div style="text-align: center;">
+				<b>
+					Pamiętaj, że podane wyżej hasło jest jednorazowego użytku <br>
+					- po zalogowaniu do systemu zostaniesz poproszony o ustawienie nowego hasła.
+				</b>
+				<br><br>
+				Bezpieczeństwo Twoich danych osobowych jest dla nas szczególnie ważne,<br>
+				dlatego co 30 dni zostaniesz poproszony o zmianę hasła.
+			</div>
+			<br><br><br>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Pozdrawiamy,<br>
+			<i>Obsługa Internetowego Systemu Obsługi Pacjentów</i>
+		</td>
+	</tr>
+</table>
+
+<!-- CONTENT -->
+									
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>

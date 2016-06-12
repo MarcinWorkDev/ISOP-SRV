@@ -61,13 +61,13 @@ public class VisitControllerRest {
 		{
 			Visit visit = visitModel.get(id);
 			
-			if (auth.checkRoles("T_PRACOWNIK") && auth.checkRoles("ADMIN,VISIT")){
+			if (auth.checkRoles("T_PRACOWNIK") && !auth.checkRoles("ADMIN,VISIT")){
 				if (auth.getLogged().getUserId() != visit.getSchedule().getProfile().getProfileId()){
 					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ACCESS_DENIED");
 				}
 			}
 			
-			if (auth.checkRoles("T_PACJENT") && auth.checkRoles("ADMIN,VISIT")){
+			if (auth.checkRoles("T_PACJENT") && !auth.checkRoles("ADMIN,VISIT")){
 				if (auth.getLogged().getUserId() != visit.getProfile().getProfileId()){
 					return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("ACCESS_DENIED");
 				}

@@ -1,11 +1,14 @@
 package sopi.module.auth.controller.rest;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
-
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,9 @@ import sopi.module.auth.model.json.request.AuthenticationRequest;
 import sopi.module.auth.model.json.response.AuthenticationResponse;
 import sopi.module.auth.model.security.CerberusUser;
 import sopi.module.auth.security.TokenUtils;
+import sopi.module.person.model.User;
+import sopi.module.person.model.UserChangePassword;
+import sopi.module.person.model.UserModel;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,6 +47,9 @@ public class AuthenticationController {
 
   @Autowired
   private UserDetailsService userDetailsService;
+  
+  @Autowired
+  private UserModel userModel;
 
   @RequestMapping(method = RequestMethod.POST)
   public ResponseEntity<?> authenticationRequest(@RequestBody AuthenticationRequest authenticationRequest, Device device) throws AuthenticationException {
@@ -59,7 +68,34 @@ public class AuthenticationController {
     String token = this.tokenUtils.generateToken(userDetails, device);
 
     // Return the token
+    User user = userModel.getUser(userDetails.getUsername());
+    
+    if (!user.isEnabled()){
+    	return ResponseEntity.status(HttpStatus.FORBIDDEN).body(900);
+    }
+    
+    DateTime now = new DateTime(new Date());
+    DateTime now2 = now.plusDays(-30);
+    if (user.getLastPasswordChangeAt().isBefore(now2)) {
+    	return ResponseEntity.status(HttpStatus.FORBIDDEN).body(901);
+    }
+    
     return ResponseEntity.ok(new AuthenticationResponse(token));
+  }
+  
+  @RequestMapping(value="/changePassword", method = RequestMethod.POST)
+  public ResponseEntity<?> authenticationRequestChangePassword(@RequestBody UserChangePassword userChangePassword) throws AuthenticationException {
+
+	  try {
+		  String result = userModel.changePassword(
+					userChangePassword.getUsername(), 
+					userChangePassword.getOldPassword(), 
+					userChangePassword.getNewPassword(), 
+					userChangePassword.getConfirmPassword());
+			return ResponseEntity.ok(result);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body("Wystąpił błąd podczas zmiany hasła: " + e.getMessage());
+		}
   }
 
   @RequestMapping(value = "refresh", method = RequestMethod.GET)
